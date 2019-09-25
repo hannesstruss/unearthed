@@ -1,8 +1,9 @@
 package de.hannesstruss.unearthed
 
-import java.util.Date
-
 data class Gravestone(
-    val firstBornAt: Date,
-    val diedLastAt: Date
+    /** Time at which the app went to the background. Milliseconds since epoch. */
+    val backgroundedEpochMillis: Long,
+
+    /** Milliseconds between app being sent to background and being restored. */
+    val millisToRestore: Long
 )

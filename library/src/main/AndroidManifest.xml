@@ -1,2 +1,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="de.hannesstruss.unearthed"/>
+          package="de.hannesstruss.unearthed">
+    <application>
+        <provider
+            android:authorities="de.hannesstruss.unearthed.InitProvider"
+            android:name=".InitProvider"
+            android:exported="false"
+            />
+    </application>
+</manifest>
