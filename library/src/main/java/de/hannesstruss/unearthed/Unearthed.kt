@@ -15,6 +15,7 @@ object Unearthed {
   private var restored: Gravestone? = null
 
   internal fun init(app: Application) {
+    // TODO: Handle multiple activities going into the background/being restored
     app.registerActivityLifecycleCallbacks(object : EmptyActivityLifecycleCallbacks() {
       override fun onActivitySaveInstanceState(activity: Activity, outState: Bundle) {
         outState.putLong(KEY_TIME_OF_SAVE_EPOCH_MILLIS, nowEpochMillis())
