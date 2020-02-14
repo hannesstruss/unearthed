@@ -16,6 +16,7 @@ object Unearthed {
 
   internal fun init(app: Application) {
     // TODO: Handle multiple activities going into the background/being restored
+    // TODO: What happens when a restored process dies again?
     app.registerActivityLifecycleCallbacks(object : EmptyActivityLifecycleCallbacks() {
       override fun onActivitySaveInstanceState(activity: Activity, outState: Bundle) {
         outState.putLong(KEY_TIME_OF_SAVE_EPOCH_MILLIS, nowEpochMillis())
