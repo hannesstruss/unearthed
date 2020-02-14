@@ -2,7 +2,7 @@
           package="de.hannesstruss.unearthed">
     <application>
         <provider
-            android:authorities="de.hannesstruss.unearthed.InitProvider"
+            android:authorities="${applicationId}.de.hannesstruss.unearthed.InitProvider"
             android:name=".InitProvider"
             android:exported="false"
             />

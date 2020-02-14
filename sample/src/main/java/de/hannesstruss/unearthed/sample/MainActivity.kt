@@ -13,8 +13,8 @@ class MainActivity : AppCompatActivity() {
 
         txt_content.text = "Fresh"
 
-        Unearthed.onProcessRestored {
-            txt_content.text = "Process restored"
+        Unearthed.onProcessRestored { graveyard ->
+            txt_content.text = "Process restored ${graveyard.gravestones.size} times."
         }
     }
 }

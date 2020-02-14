@@ -4,9 +4,12 @@ import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-data class Gravestone(
+class Gravestone(
     /** ID of the process that died */
     val pid: Int,
+
+    /** Time at which the activity was restored. Milliseconds since epoch. */
+    val restoredAtEpochMillis: Long,
 
     /** Time at which the app went to the background. Milliseconds since epoch. */
     val backgroundedEpochMillis: Long,

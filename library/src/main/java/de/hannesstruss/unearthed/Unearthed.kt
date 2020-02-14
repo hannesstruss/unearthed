@@ -4,62 +4,82 @@ import android.app.Activity
 import android.app.Application
 import android.os.Bundle
 import android.os.Process
+import androidx.annotation.MainThread
 import java.util.*
 
 private const val KEY_TIME_OF_SAVE_EPOCH_MILLIS = "unearthed_time_of_save_epoch_millis"
 private const val KEY_PID_AT_SAVE = "unearthed_pid_at_save"
 private const val KEY_GRAVEYARD = "unearthed_graveyard"
 
-// TODO: Handle multiple activities going into the background/being restored
-// TODO: What happens when a restored process dies again?
-class Unearthed internal constructor(private val currentPid: Int) {
+private val WALL_CLOCK = {
+  Calendar.getInstance().timeInMillis
+}
+
+class Unearthed internal constructor(
+  private val currentPid: Int,
+  private val epochClock: () -> Long = WALL_CLOCK
+) {
   companion object {
+    private var instance: Unearthed? = null
+
+    @MainThread
     internal fun init(app: Application) {
-      val unearthed = Unearthed(currentPid = Process.myPid())
+      check(instance == null) { "Unearthed was already initialized" }
+
+      instance = Unearthed(currentPid = Process.myPid())
       app.registerActivityLifecycleCallbacks(object : EmptyActivityLifecycleCallbacks() {
         override fun onActivitySaveInstanceState(activity: Activity, outState: Bundle) {
-          unearthed.onActivitySaveInstanceState(activity, outState)
+          val unearthed = checkNotNull(instance)
+          unearthed.onActivitySaveInstanceState(outState)
         }
 
         override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {
+          val unearthed = checkNotNull(instance)
           unearthed.onActivityCreated(savedInstanceState)
         }
       })
+    }
+
+    fun onProcessRestored(callback: (Graveyard) -> Unit) {
+      val unearthed = checkNotNull(instance)
+      unearthed.onProcessRestored(callback)
     }
   }
 
   private val listeners = mutableSetOf<(Graveyard) -> Unit>()
   private var graveyard: Graveyard? = null
-  private var restored: Gravestone? = null
 
-  internal fun onActivitySaveInstanceState(activity: Activity, outState: Bundle) {
-    outState.putLong(KEY_TIME_OF_SAVE_EPOCH_MILLIS, nowEpochMillis())
-    outState.putInt(KEY_PID_AT_SAVE, Process.myPid())
+  internal fun onActivitySaveInstanceState(outState: Bundle) {
+    outState.putLong(KEY_TIME_OF_SAVE_EPOCH_MILLIS, epochClock())
+    outState.putInt(KEY_PID_AT_SAVE, currentPid)
     graveyard?.let {
       outState.putParcelableArrayList(KEY_GRAVEYARD, it.gravestones.toArrayList())
     }
   }
 
   internal fun onActivityCreated(savedInstanceState: Bundle?) {
+    val now = epochClock()
+
     if (savedInstanceState != null) {
       val pid = savedInstanceState.getInt(KEY_PID_AT_SAVE, -1)
-      val isNewProcess = pid != -1 && pid != Process.myPid()
+      val isNewProcess = pid != -1 && pid != currentPid
 
-      if (isNewProcess && restored == null) {
+      if (isNewProcess && graveyard == null) {
         val timeOfSaveEpochMillis =
           savedInstanceState.getLong(KEY_TIME_OF_SAVE_EPOCH_MILLIS)
 
         val gravestone = Gravestone(
           pid = pid,
+          restoredAtEpochMillis = now,
           backgroundedEpochMillis = timeOfSaveEpochMillis,
-          millisToRestore = nowEpochMillis() - timeOfSaveEpochMillis
+          millisToRestore = now - timeOfSaveEpochMillis
         )
 
-        restored = gravestone
         val gravestones: ArrayList<Gravestone> =
           savedInstanceState.getParcelableArrayList(KEY_GRAVEYARD) ?: arrayListOf()
         gravestones.add(gravestone)
         val graveyard = Graveyard(gravestones)
+        this.graveyard = graveyard
         listeners.forEach {
           it(graveyard)
         }
@@ -67,14 +87,8 @@ class Unearthed internal constructor(private val currentPid: Int) {
     }
   }
 
-  // TODO: Naming – is it really the _process_ that's restored?
   fun onProcessRestored(callback: (Graveyard) -> Unit) {
     graveyard?.let { callback(it) }
     listeners.add(callback)
-  }
-
-  private fun nowEpochMillis(): Long {
-    val cal = Calendar.getInstance()
-    return cal.timeInMillis
   }
 }
