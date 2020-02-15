@@ -21,7 +21,7 @@ class UnearthedTest {
     unearthed2.onActivityCreated(state)
 
     val graveyard = checkNotNull(graveyardOpt)
-    assertThat(graveyard.gravestones.first().pid).isEqualTo(1)
+    assertThat(graveyard.gravestones.first().pid).isEqualTo(15)
   }
 
   @Test
