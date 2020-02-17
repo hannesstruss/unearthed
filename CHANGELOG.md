@@ -5,6 +5,7 @@
 _(2020-02-17)_
 
 * Target JDK 1.8
+* Compile/target SDK 29
 * Include sources artifact
 * Don't generate BuildConfig
 
