@@ -4,7 +4,7 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'digital.wup.android-maven-publish'
 apply plugin: 'signing'
 
-version = "0.2.0-SNAPSHOT"
+version = "0.1.1-SNAPSHOT"
 
 android {
     compileSdkVersion 28
@@ -37,6 +37,11 @@ dependencies {
     androidTestImplementation 'androidx.test:runner:1.2.0'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'com.google.truth:truth:1.0.1'
+}
+
+task sourcesJar(type: Jar) {
+    from android.sourceSets.main.java.srcDirs
+    classifier "sources"
 }
 
 publishing {
@@ -84,6 +89,8 @@ publishing {
                     url = "https://github.com/hannesstruss/unearthed"
                 }
             }
+
+            artifact(sourcesJar)
 
             from components.android
         }
