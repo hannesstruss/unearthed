@@ -45,8 +45,8 @@ publishing {
             def releasesRepoUrl = "https://oss.sonatype.org/service/local/staging/deploy/maven2/"
             url = project.version.toString().endsWith("SNAPSHOT") ? snapshotsRepoUrl : releasesRepoUrl
             credentials {
-                username = getProperty("NEXUS_USERNAME") ?: System.getenv("NEXUS_USER")
-                password = getProperty("NEXUS_PASSWORD") ?: System.getenv("NEXUS_PASSWORD")
+                username = hasProperty("NEXUS_USERNAME") ? getProperty("NEXUS_USERNAME") : (System.getenv("NEXUS_USERNAME") ?: "")
+                password = hasProperty("NEXUS_PASSWORD") ? getProperty("NEXUS_PASSWORD") : (System.getenv("NEXUS_PASSWORD") ?: "")
             }
         }
     }
