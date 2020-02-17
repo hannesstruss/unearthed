@@ -1,5 +1,26 @@
 # Unearthed
 
+A library for Android that notifies you when your app was restored after a
+process death.
+
+## Usage
+
+Wherever convenient, add a listener to `Unearthed` and get notified of
+restoration after process death.
+
+```kotlin
+Unearthed.onProcessRestored { graveyard ->
+  Log.d("MainActivity", "App has been restored ${graveyard.gravestones.size}
+  times.")
+}
+```
+
+## Download
+
+Find artifacts on [Maven
+Central](https://search.maven.org/search?q=de.hannesstruss.unearthed)
+at `de.hannesstruss.unearthed:unearthed:0.1.0`.
+
 ## Releasing
 
     ./gradlew :library:publishMavenAarPublicationToMavenRepository
