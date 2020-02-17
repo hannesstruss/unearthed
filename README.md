@@ -10,8 +10,8 @@ restoration after process death.
 
 ```kotlin
 Unearthed.onProcessRestored { graveyard ->
-  Log.d("MainActivity", "App has been restored ${graveyard.gravestones.size}
-  times.")
+  val timesRestored = graveyard.gravestones.size
+  Log.d("MainActivity", "App has been restored $timesRestored times.")
 }
 ```
 
