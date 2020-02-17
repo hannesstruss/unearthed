@@ -22,6 +22,15 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
 }
 
 androidExtensions {
@@ -30,7 +39,7 @@ androidExtensions {
 }
 
 dependencies {
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
     implementation "androidx.annotation:annotation:1.1.0"
 
     testImplementation 'junit:junit:4.12'
@@ -39,9 +48,9 @@ dependencies {
     androidTestImplementation 'com.google.truth:truth:1.0.1'
 }
 
-task sourcesJar(type: Jar) {
-    from android.sourceSets.main.java.srcDirs
-    classifier "sources"
+def sourcesJarProvider = tasks.register('sourcesJar', Jar) { task ->
+    task.archiveClassifier.set('sources')
+    task.from(android.sourceSets.main.java.srcDirs)
 }
 
 publishing {
@@ -90,7 +99,7 @@ publishing {
                 }
             }
 
-            artifact(sourcesJar)
+            artifact(sourcesJarProvider.get())
 
             from components.android
         }
