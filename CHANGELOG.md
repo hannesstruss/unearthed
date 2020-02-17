@@ -6,6 +6,7 @@ _(2020-02-17)_
 
 * Target JDK 1.8
 * Include sources artifact
+* Don't generate BuildConfig
 
 ## 0.1.0 
 

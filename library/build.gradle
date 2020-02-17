@@ -31,6 +31,12 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
+
+    libraryVariants.all {
+        it.getGenerateBuildConfigProvider().configure {
+            enabled = false
+        }
+    }
 }
 
 androidExtensions {
