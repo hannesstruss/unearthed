@@ -3,7 +3,7 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'digital.wup.android-maven-publish'
 
-version = "0.0.1-SNAPSHOT"
+version = "0.1.0"
 
 android {
     compileSdkVersion 28
