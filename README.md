@@ -3,6 +3,13 @@
 A library for Android that notifies you when your app was restored after a
 process death.
 
+Should you still save your instance state in a world of phones with
+12GB of RAM? You definitely shouldn't have to guess! Unearthed
+notifies you when your app goes to the background, dies and gets
+restored. It's up to you what to do with that information – one option might be
+to track an event in your analytics.
+
+
 ## Usage
 
 Wherever convenient, add a listener to `Unearthed` and get notified of
@@ -12,6 +19,7 @@ restoration after process death.
 Unearthed.onProcessRestored { graveyard ->
   val timesRestored = graveyard.gravestones.size
   Log.d("MainActivity", "App has been restored $timesRestored times.")
+  trackProcessDeathToAnalytics()
 }
 ```
 
@@ -41,3 +49,5 @@ at `de.hannesstruss.unearthed:unearthed:0.1.0`.
     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
     See the License for the specific language governing permissions and
     limitations under the License.
+
+[twitter-debate]: https://twitter.com/hannesstruss/status/1107331345762734082
