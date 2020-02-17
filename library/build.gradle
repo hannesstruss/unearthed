@@ -4,7 +4,7 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'digital.wup.android-maven-publish'
 apply plugin: 'signing'
 
-version = "0.1.1-SNAPSHOT"
+version = "0.1.1"
 
 android {
     compileSdkVersion 29
