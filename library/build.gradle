@@ -1,6 +1,9 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'digital.wup.android-maven-publish'
+
+version = "0.0.1-SNAPSHOT"
 
 android {
     compileSdkVersion 28
@@ -8,8 +11,6 @@ android {
     defaultConfig {
         minSdkVersion 21
         targetSdkVersion 28
-        versionCode 1
-        versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -28,12 +29,55 @@ androidExtensions {
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
-
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation 'com.android.support:appcompat-v7:28.0.0'
+    implementation "androidx.annotation:annotation:1.1.0"
+
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.2.0'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'com.google.truth:truth:1.0.1'
+}
+
+publishing {
+    repositories {
+        maven {
+            def snapshotsRepoUrl = "https://oss.sonatype.org/content/repositories/snapshots/"
+            def releasesRepoUrl = "https://oss.sonatype.org/service/local/staging/deploy/maven2/"
+            url = project.version.toString().endsWith("SNAPSHOT") ? snapshotsRepoUrl : releasesRepoUrl
+            credentials {
+                username = getProperty("NEXUS_USERNAME") ?: System.getenv("NEXUS_USER")
+                password = getProperty("NEXUS_PASSWORD") ?: System.getenv("NEXUS_PASSWORD")
+            }
+        }
+    }
+
+    publications {
+        mavenAar(MavenPublication) {
+            groupId = "de.hannesstruss.unearthed"
+            artifactId = "unearthed"
+            version = project.version
+
+            pom {
+                name = "Unearthed"
+                description = "Track process deaths on Android"
+                url = "https://github.com/hannesstruss/unearthed"
+
+                developers {
+                    developer {
+                        id = "hannesstruss"
+                        name = "Hannes Struss"
+                        email = "x@hannesstruss.de"
+                    }
+                }
+
+                scm {
+                    connection = "scm:git:git://github.com/hannesstruss/unearthed.git"
+                    developerConnection = "scm:git:ssh://github.com/hannesstruss/unearthed.git"
+                    url = "https://github.com/hannesstruss/unearthed"
+                }
+            }
+
+            from components.android
+        }
+    }
 }
