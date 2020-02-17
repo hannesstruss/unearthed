@@ -87,6 +87,13 @@ class Unearthed internal constructor(
     }
   }
 
+  /**
+   * Register a listener to get notified when the app is restored after a process death.
+   *
+   * This only includes scenarios in which an [Activity] is visible, sent to the
+   * background, killed by the system and then restored, e.g. by the user navigating
+   * to it from the recent apps switcher.
+   */
   fun onProcessRestored(callback: (Graveyard) -> Unit) {
     graveyard?.let { callback(it) }
     listeners.add(callback)
