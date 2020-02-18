@@ -3,8 +3,9 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'digital.wup.android-maven-publish'
 apply plugin: 'signing'
+apply plugin: 'org.jetbrains.dokka'
 
-version = "0.1.1"
+version = "0.1.2"
 
 android {
     compileSdkVersion 29
@@ -54,9 +55,20 @@ dependencies {
     androidTestImplementation 'com.google.truth:truth:1.0.1'
 }
 
-def sourcesJarProvider = tasks.register('sourcesJar', Jar) { task ->
+def sourcesJarTaskProvider = tasks.register('sourcesJar', Jar) { task ->
     task.archiveClassifier.set('sources')
     task.from(android.sourceSets.main.java.srcDirs)
+}
+
+def dokkaDir = "$buildDir/dokka"
+dokka {
+    outputFormat = 'html'
+    outputDirectory = dokkaDir
+}
+def dokkaJarTaskProvider = tasks.register('dokkaJar', Jar) { task ->
+    task.archiveClassifier.set('javadoc')
+    task.from(dokkaDir)
+    task.dependsOn('dokka')
 }
 
 publishing {
@@ -105,7 +117,8 @@ publishing {
                 }
             }
 
-            artifact(sourcesJarProvider.get())
+            artifact(sourcesJarTaskProvider.get())
+            artifact(dokkaJarTaskProvider.get())
 
             from components.android
         }
