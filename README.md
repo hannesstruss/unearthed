@@ -3,6 +3,8 @@
 A library for Android that notifies you when your app was restored after a
 process death.
 
+![CI](https://github.com/hannesstruss/unearthed/workflows/CI/badge.svg)
+
 Should you still save your instance state in a world of phones with
 12GB of RAM? You definitely shouldn't have to guess! Unearthed
 notifies you when your app goes to the background, dies and gets
