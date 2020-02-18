@@ -27,7 +27,7 @@ Unearthed.onProcessRestored { graveyard ->
 
 Find artifacts on [Maven
 Central](https://search.maven.org/search?q=de.hannesstruss.unearthed)
-at `de.hannesstruss.unearthed:unearthed:0.1.0`.
+at `de.hannesstruss.unearthed:unearthed:0.1.1`.
 
 ## Releasing
 
