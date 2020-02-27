@@ -8,8 +8,8 @@ process death.
 Should you still save your instance state in a world of phones with 12GB of
 RAM? Maybe! Since knowing is better than guessing, Unearthed lets you track how
 often your app is sent to the background, dies, and gets restored. It's up to
-you what to do with that information – for example, you could log an event to
-your analytics.
+you what to do with that information, but why not log an event to your
+analytics?
 
 
 ## Usage
