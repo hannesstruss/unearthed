@@ -5,14 +5,13 @@ import android.app.Application
 import android.os.Bundle
 import android.os.Process
 import androidx.annotation.MainThread
-import java.util.Calendar
 
 private const val KEY_TIME_OF_SAVE_EPOCH_MILLIS = "unearthed_time_of_save_epoch_millis"
 private const val KEY_PID_AT_SAVE = "unearthed_pid_at_save"
 private const val KEY_GRAVEYARD = "unearthed_graveyard"
 
 private val WALL_CLOCK = {
-  Calendar.getInstance().timeInMillis
+  System.currentTimeMillis()
 }
 
 class Unearthed internal constructor(
