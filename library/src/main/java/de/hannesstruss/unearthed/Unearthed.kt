@@ -40,7 +40,13 @@ class Unearthed internal constructor(
     }
 
     fun onProcessRestored(callback: (Graveyard) -> Unit) {
-      val unearthed = checkNotNull(instance)
+      val unearthed = checkNotNull(instance) {
+        """
+        Unearthed didn't have the chance to initialize itself.
+        This can happen if you're calling onProcessRestored from outside your main process,
+        e.g. in a LeakCanary analyzer process or ProcessPhoenix process.
+        """.trimIndent()
+      }
       unearthed.onProcessRestored(callback)
     }
   }
