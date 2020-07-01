@@ -8,6 +8,9 @@ class Gravestone(
     /** ID of the process that died */
     val pid: Int,
 
+    /** Name of Activity which was visible when the process died */
+    val activityName: String,
+
     /** Time at which the activity was restored. Milliseconds since epoch. */
     val restoredAtEpochMillis: Long,
 

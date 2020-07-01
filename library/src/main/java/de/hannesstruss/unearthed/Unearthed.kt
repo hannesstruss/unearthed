@@ -8,6 +8,7 @@ import androidx.annotation.MainThread
 
 private const val KEY_TIME_OF_SAVE_EPOCH_MILLIS = "unearthed_time_of_save_epoch_millis"
 private const val KEY_PID_AT_SAVE = "unearthed_pid_at_save"
+private const val KEY_ACTIVITY_NAME = "activity_name"
 private const val KEY_GRAVEYARD = "unearthed_graveyard"
 
 private val WALL_CLOCK = {
@@ -29,7 +30,7 @@ class Unearthed internal constructor(
       app.registerActivityLifecycleCallbacks(object : EmptyActivityLifecycleCallbacks() {
         override fun onActivitySaveInstanceState(activity: Activity, outState: Bundle) {
           val unearthed = checkNotNull(instance)
-          unearthed.onActivitySaveInstanceState(outState)
+          unearthed.onActivitySaveInstanceState(outState, activity.javaClass.simpleName)
         }
 
         override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {
@@ -54,9 +55,10 @@ class Unearthed internal constructor(
   private val listeners = mutableSetOf<(Graveyard) -> Unit>()
   private var graveyard: Graveyard? = null
 
-  internal fun onActivitySaveInstanceState(outState: Bundle) {
+  internal fun onActivitySaveInstanceState(outState: Bundle, activityName: String = "") {
     outState.putLong(KEY_TIME_OF_SAVE_EPOCH_MILLIS, epochClock())
     outState.putInt(KEY_PID_AT_SAVE, currentPid)
+    outState.putString(KEY_ACTIVITY_NAME, activityName)
     graveyard?.let {
       outState.putParcelableArrayList(KEY_GRAVEYARD, it.gravestones.toArrayList())
     }
@@ -73,8 +75,11 @@ class Unearthed internal constructor(
         val timeOfSaveEpochMillis =
           savedInstanceState.getLong(KEY_TIME_OF_SAVE_EPOCH_MILLIS)
 
+        val activityName = savedInstanceState.getString(KEY_ACTIVITY_NAME, "")
+
         val gravestone = Gravestone(
           pid = pid,
+          activityName = activityName,
           restoredAtEpochMillis = now,
           backgroundedEpochMillis = timeOfSaveEpochMillis,
           millisToRestore = now - timeOfSaveEpochMillis
