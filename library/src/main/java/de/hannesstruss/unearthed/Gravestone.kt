@@ -1,5 +1,6 @@
 package de.hannesstruss.unearthed
 
+import android.content.ComponentName
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
 
@@ -7,6 +8,9 @@ import kotlinx.android.parcel.Parcelize
 class Gravestone(
     /** ID of the process that died */
     val pid: Int,
+
+    /** Name of component which was visible when the process died */
+    val componentName: ComponentName?,
 
     /** Time at which the activity was restored. Milliseconds since epoch. */
     val restoredAtEpochMillis: Long,
