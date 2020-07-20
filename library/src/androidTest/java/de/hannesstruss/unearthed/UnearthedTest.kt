@@ -1,5 +1,6 @@
 package de.hannesstruss.unearthed
 
+import android.content.ComponentName
 import android.os.Bundle
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.google.common.truth.Truth.assertThat
@@ -8,12 +9,14 @@ import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
 class UnearthedTest {
+
   @Test
   fun singleDeath() {
     val state = Bundle()
+    val componentName = ComponentName("package", "class")
 
     val unearthed1 = Unearthed(1)
-    unearthed1.onActivitySaveInstanceState(state)
+    unearthed1.onActivitySaveInstanceState(state, componentName)
 
     val unearthed2 = Unearthed(2)
     var graveyardOpt: Graveyard? = null
@@ -28,12 +31,14 @@ class UnearthedTest {
   fun multipleDeaths() {
     val unearthed1 = Unearthed(1)
     val state1 = Bundle()
-    unearthed1.onActivitySaveInstanceState(state1)
+    val componentName1 = ComponentName("package1", "class1")
+    unearthed1.onActivitySaveInstanceState(state1, componentName1)
 
     val unearthed2 = Unearthed(2)
     unearthed2.onActivityCreated(state1)
     val state2 = Bundle()
-    unearthed2.onActivitySaveInstanceState(state2)
+    val componentName2 = ComponentName("package2", "class2")
+    unearthed2.onActivitySaveInstanceState(state2, componentName2)
 
     val unearthed3 = Unearthed(3)
     var graveyardOpt: Graveyard? = null
@@ -51,10 +56,12 @@ class UnearthedTest {
     val unearthed1 = Unearthed(1)
 
     val stateActivity1 = Bundle()
+    val componentName1 = ComponentName("package1", "class1")
     val stateActivity2 = Bundle()
+    val componentName2 = ComponentName("package2", "class2")
 
-    unearthed1.onActivitySaveInstanceState(stateActivity1)
-    unearthed1.onActivitySaveInstanceState(stateActivity2)
+    unearthed1.onActivitySaveInstanceState(stateActivity1, componentName1)
+    unearthed1.onActivitySaveInstanceState(stateActivity2, componentName2)
 
     val unearthed2 = Unearthed(2)
     var callbackCalls = 0
@@ -67,13 +74,14 @@ class UnearthedTest {
   }
 
   @Test
-  fun savesCorrectTime() {
+  fun savesCorrectTimeAndComponentName() {
     var now = 23L
     val clock = { now }
 
     val unearthed1 = Unearthed(1, epochClock = clock)
     val state1 = Bundle()
-    unearthed1.onActivitySaveInstanceState(state1)
+    val componentName1 = ComponentName("package1", "class1")
+    unearthed1.onActivitySaveInstanceState(state1, componentName1)
 
     now = 123L
 
@@ -85,13 +93,16 @@ class UnearthedTest {
     val graveyard = checkNotNull(graveyardOpt)
     assertThat(graveyard.gravestones.first().backgroundedEpochMillis).isEqualTo(23L)
     assertThat(graveyard.gravestones.first().millisToRestore).isEqualTo(123L - 23L)
+    assertThat(graveyard.gravestones.first().millisToRestore).isEqualTo(123L - 23L)
+    assertThat(graveyard.gravestones.first().componentName).isEqualTo(componentName1)
   }
 
   @Test
   fun callsCallbackAfterRestore() {
     val unearthed1 = Unearthed(1)
     val state1 = Bundle()
-    unearthed1.onActivitySaveInstanceState(state1)
+    val componentName1 = ComponentName("package1", "class1")
+    unearthed1.onActivitySaveInstanceState(state1, componentName1)
 
     val unearthed2 = Unearthed(2)
     unearthed2.onActivityCreated(state1)
