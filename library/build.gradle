@@ -46,7 +46,6 @@ androidExtensions {
 }
 
 dependencies {
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
     implementation "androidx.annotation:annotation:1.2.0"
 
     testImplementation 'junit:junit:4.12'
