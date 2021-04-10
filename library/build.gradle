@@ -5,7 +5,7 @@ apply plugin: 'digital.wup.android-maven-publish'
 apply plugin: 'signing'
 apply plugin: 'org.jetbrains.dokka'
 
-version = "0.1.2"
+version = "0.2.0-SNAPSHOT"
 
 android {
     compileSdkVersion 29

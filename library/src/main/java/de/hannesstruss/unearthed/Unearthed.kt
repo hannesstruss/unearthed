@@ -23,8 +23,15 @@ class Unearthed internal constructor(
   companion object {
     private var instance: Unearthed? = null
 
+    /**
+     * Initialize Unearthed. Call this from [Application.onCreate].
+     *
+     * If you're app runs multiple processes, e.g. when using a library such as LeakCanary
+     * or ProcessPhoenix, make sure to read the library docs to only call this method from
+     * your main app process.
+     */
     @MainThread
-    internal fun init(app: Application) {
+    fun init(app: Application) {
       check(instance == null) { "Unearthed was already initialized" }
 
       instance = Unearthed(currentPid = Process.myPid())
@@ -44,9 +51,8 @@ class Unearthed internal constructor(
     fun onProcessRestored(callback: (Graveyard) -> Unit) {
       val unearthed = checkNotNull(instance) {
         """
-        Unearthed didn't have the chance to initialize itself.
-        This can happen if you're calling onProcessRestored from outside your main process,
-        e.g. in a LeakCanary analyzer process or ProcessPhoenix process.
+        Unearthed isn't initialized yet. Make sure to call Unearthed.init(this) from your
+        Application class' onCreate method.
         """.trimIndent()
       }
       unearthed.onProcessRestored(callback)

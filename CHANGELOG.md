@@ -1,5 +1,11 @@
 # Changes
 
+## 0.2.0
+
+_Upcoming_
+
+- BREAKING: Unearthed.init(app) now has to be called explicitly
+
 ## 0.1.2
 
 _(2020-02-18)_
