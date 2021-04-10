@@ -1,5 +1,13 @@
 package de.hannesstruss.unearthed.sample
 
 import android.app.Application
+import de.hannesstruss.unearthed.Unearthed
 
-class SampleApp : Application()
+@Suppress("unused")
+class SampleApp : Application() {
+  override fun onCreate() {
+    super.onCreate()
+
+    Unearthed.init(this)
+  }
+}
