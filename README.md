@@ -14,6 +14,18 @@ analytics?
 
 ## Usage
 
+First, initialize Unearthed from your `Application` class' `onCreate` method:
+
+```kotlin
+class MyApp : Application() {
+  override fun onCreate() {
+    super.onCreate()
+
+    Unearthed.init(this)
+  }
+}
+```
+
 Wherever convenient, add a listener to `Unearthed` and get notified of
 restoration after process death.
 
@@ -29,7 +41,7 @@ Unearthed.onProcessRestored { graveyard ->
 
 Find artifacts on [Maven
 Central](https://search.maven.org/search?q=de.hannesstruss.unearthed)
-at `de.hannesstruss.unearthed:unearthed:0.1.2`.
+at `de.hannesstruss.unearthed:unearthed:0.2.0`.
 
 ## Releasing
 
