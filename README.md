@@ -45,7 +45,7 @@ at `de.hannesstruss.unearthed:unearthed:0.2.0`.
 
 ## Releasing
 
-    ./gradlew :library:publishMavenAarPublicationToMavenRepository
+    ./gradlew :library:publishReleasePublicationToMavenRepository
 
 
 # License
