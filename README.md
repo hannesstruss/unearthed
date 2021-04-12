@@ -14,17 +14,7 @@ analytics?
 
 ## Usage
 
-First, initialize Unearthed from your `Application` class' `onCreate` method:
-
-```kotlin
-class MyApp : Application() {
-  override fun onCreate() {
-    super.onCreate()
-
-    Unearthed.init(this)
-  }
-}
-```
+Unearthed will initialize itself via [AndroidX App Startup][androidx-startup].
 
 Wherever convenient, add a listener to `Unearthed` and get notified of
 restoration after process death.
@@ -36,6 +26,12 @@ Unearthed.onProcessRestored { graveyard ->
   trackProcessDeathToAnalytics()
 }
 ```
+
+### Disabling AndroidX App Startup
+
+It's possible to [disable AndroidX App Startup][androidx-startup]. When doing that,
+make sure to call `Unearthed.initManuallyWithDisabledAndroidXStartup(app)` in your
+`Application.onCreate`.
 
 ## Download
 
@@ -64,4 +60,4 @@ at `de.hannesstruss.unearthed:unearthed:0.2.0`.
     See the License for the specific language governing permissions and
     limitations under the License.
 
-[twitter-debate]: https://twitter.com/hannesstruss/status/1107331345762734082
+[androidx-startup]: https://developer.android.com/topic/libraries/app-startup

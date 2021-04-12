@@ -4,7 +4,8 @@ import android.app.Application
 import android.content.Context
 import androidx.startup.Initializer
 
-class UnearthedInitializer : Initializer<Unit> {
+@Suppress("unused") // Will be instantiated by AndroidX App Startup.
+internal class UnearthedInitializer : Initializer<Unit> {
   override fun create(context: Context) {
     Unearthed.init(context.applicationContext as Application)
   }

@@ -24,14 +24,17 @@ class Unearthed internal constructor(
     private var instance: Unearthed? = null
 
     /**
-     * Initialize Unearthed. Call this from [Application.onCreate].
+     * Initializes Unearthed. Will be called automatically by
+     * [AndroidX App Startup](https://developer.android.com/topic/libraries/app-startup)
+     * unless you choose to disable that. In that case, call this from or before
+     * [Application.onCreate].
      *
      * If you're app runs multiple processes, e.g. when using a library such as LeakCanary
      * or ProcessPhoenix, make sure to read the library docs to only call this method from
      * your main app process.
      */
     @MainThread
-    fun init(app: Application) {
+    internal fun init(app: Application) {
       check(instance == null) { "Unearthed was already initialized" }
 
       instance = Unearthed(currentPid = Process.myPid())
@@ -57,6 +60,19 @@ class Unearthed internal constructor(
         """.trimIndent()
       }
       unearthed.onProcessRestored(callback)
+    }
+
+    @MainThread
+    fun initManuallyWithDisabledAndroidXStartup(app: Application) {
+      check(instance == null) {
+        """Unearthed is already initialized. Either you have called this method twice, or
+          |Unearthed was already initialized via AndroidX App Startup:
+          |
+          |https://developer.android.com/topic/libraries/app-startup
+        """.trimMargin()
+      }
+
+      init(app)
     }
   }
 
