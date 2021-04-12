@@ -23,16 +23,6 @@ class Unearthed internal constructor(
   companion object {
     private var instance: Unearthed? = null
 
-    /**
-     * Initializes Unearthed. Will be called automatically by
-     * [AndroidX App Startup](https://developer.android.com/topic/libraries/app-startup)
-     * unless you choose to disable that. In that case, call this from or before
-     * [Application.onCreate].
-     *
-     * If you're app runs multiple processes, e.g. when using a library such as LeakCanary
-     * or ProcessPhoenix, make sure to read the library docs to only call this method from
-     * your main app process.
-     */
     @MainThread
     internal fun init(app: Application) {
       check(instance == null) { "Unearthed was already initialized" }
@@ -62,6 +52,17 @@ class Unearthed internal constructor(
       unearthed.onProcessRestored(callback)
     }
 
+    /**
+     * Initializes Unearthed.
+     *
+     * Unearthed initializes itself via
+     * [AndroidX App Startup](https://developer.android.com/topic/libraries/app-startup),
+     * but if you choose to disable that, call this method in your [Application.onCreate].
+     *
+     * If you're app runs multiple processes, e.g. when using a library such as LeakCanary
+     * or ProcessPhoenix, make sure to read the library docs to only call this method from
+     * your main app process.
+     */
     @MainThread
     fun initManuallyWithDisabledAndroidXStartup(app: Application) {
       check(instance == null) {
