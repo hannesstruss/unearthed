@@ -1,11 +1,20 @@
 # Changes
 
+## 0.3.0
+
+_(upcoming)_
+
+- BREAKING: Unearthed will initialize itself again via
+  [AndroidX App Startup](https://developer.android.com/topic/libraries/app-startup).
+  Call `Unearthed.initManuallyWithDisabledAndroidXStartup(app)` if you disable AndroidX
+  App Startup.
+
 ## 0.2.0
 
 _(2021-04-10)_
 
-- BREAKING: Unearthed won't initialize itself via a dummy ContentProvider
-  anymore, instead Unearthed.init(app) now has to be called explicitly
+- BREAKING: Unearthed won't initialize itself via a dummy `ContentProvider`
+  anymore, instead `Unearthed.init(app)` now has to be called explicitly
 
 ## 0.1.2
 

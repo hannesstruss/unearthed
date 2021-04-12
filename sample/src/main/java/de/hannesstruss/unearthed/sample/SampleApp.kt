@@ -8,6 +8,6 @@ class SampleApp : Application() {
   override fun onCreate() {
     super.onCreate()
 
-    Unearthed.init(this)
+//    Unearthed.init(this)
   }
 }

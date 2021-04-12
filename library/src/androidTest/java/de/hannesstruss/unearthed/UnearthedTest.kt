@@ -1,9 +1,12 @@
 package de.hannesstruss.unearthed
 
+import android.app.Application
 import android.content.ComponentName
 import android.os.Bundle
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import androidx.test.platform.app.InstrumentationRegistry
 import com.google.common.truth.Truth.assertThat
+import org.junit.Assert.fail
 import org.junit.Test
 import org.junit.runner.RunWith
 
@@ -110,5 +113,18 @@ class UnearthedTest {
     unearthed2.onProcessRestored { graveyardOpt = it }
 
     assertThat(graveyardOpt).isNotNull()
+  }
+
+  @Test
+  fun wontInitializeManuallyTwice() {
+    try {
+      val app =
+        InstrumentationRegistry.getInstrumentation().context.applicationContext as Application
+      Unearthed.initManuallyWithDisabledAndroidXStartup(app)
+      Unearthed.initManuallyWithDisabledAndroidXStartup(app)
+      fail()
+    } catch (e: IllegalStateException) {
+      assertThat(e.message).contains("https://developer.android.com")
+    }
   }
 }
