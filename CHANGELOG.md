@@ -4,7 +4,7 @@
 
 _(upcoming)_
 
-- BREAKING: Unearthed will initialize itself again via
+- BREAKING: Unearthed will initialize itself again, this time via
   [AndroidX App Startup](https://developer.android.com/topic/libraries/app-startup).
   Call `Unearthed.initManuallyWithDisabledAndroidXStartup(app)` if you disable AndroidX
   App Startup.
