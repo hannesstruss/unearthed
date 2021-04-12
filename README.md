@@ -39,11 +39,6 @@ Find artifacts on [Maven
 Central](https://search.maven.org/search?q=de.hannesstruss.unearthed)
 at `de.hannesstruss.unearthed:unearthed:0.2.0`.
 
-## Releasing
-
-    ./gradlew :library:publishReleasePublicationToMavenRepository
-
-
 # License
 
     Copyright 2020 Hannes Struss
