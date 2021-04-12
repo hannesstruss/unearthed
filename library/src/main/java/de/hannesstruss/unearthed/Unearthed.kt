@@ -31,10 +31,12 @@ class Unearthed internal constructor(
      * your main app process.
      */
     @MainThread
-    fun init(app: Application) {
+    fun init(app: Application): Unearthed {
       check(instance == null) { "Unearthed was already initialized" }
 
-      instance = Unearthed(currentPid = Process.myPid())
+      val newInstance = Unearthed(currentPid = Process.myPid())
+      instance = newInstance
+
       app.registerActivityLifecycleCallbacks(object : EmptyActivityLifecycleCallbacks() {
         override fun onActivitySaveInstanceState(activity: Activity, outState: Bundle) {
           val unearthed = checkNotNull(instance)
@@ -46,6 +48,8 @@ class Unearthed internal constructor(
           unearthed.onActivityCreated(savedInstanceState)
         }
       })
+
+      return newInstance
     }
 
     fun onProcessRestored(callback: (Graveyard) -> Unit) {
