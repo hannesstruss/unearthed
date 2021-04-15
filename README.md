@@ -14,8 +14,6 @@ analytics?
 
 ## Usage
 
-Unearthed will initialize itself via [AndroidX App Startup][androidx-startup].
-
 Wherever convenient, add a listener to `Unearthed` and get notified of
 restoration after process death.
 
@@ -26,6 +24,9 @@ Unearthed.onProcessRestored { graveyard ->
   trackProcessDeathToAnalytics()
 }
 ```
+
+Unearthed will initialize itself via [AndroidX App Startup][androidx-startup],
+so there's nothing else to do.
 
 ### Disabling AndroidX App Startup
 
