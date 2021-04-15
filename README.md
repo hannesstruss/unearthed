@@ -37,7 +37,7 @@ make sure to call `Unearthed.initManuallyWithDisabledAndroidXStartup(app)` in yo
 
 Find artifacts on [Maven
 Central](https://search.maven.org/search?q=de.hannesstruss.unearthed)
-at `de.hannesstruss.unearthed:unearthed:0.2.0`.
+at `de.hannesstruss.unearthed:unearthed:0.3.0`.
 
 # License
 
