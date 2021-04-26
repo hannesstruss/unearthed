@@ -2,7 +2,7 @@
 
 ## 0.3.0
 
-_(upcoming)_
+_(2020-04-26)_
 
 - BREAKING: Unearthed will initialize itself again, this time via
   [AndroidX App Startup](https://developer.android.com/topic/libraries/app-startup).
